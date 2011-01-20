@@ -1,3 +1,6 @@
+mimetypes.lua
+Version 1.0.0
+
 This is just a quick Lua library designed to provide a nice, non-server-bound
 database of MIME types. Usage is simple:
 
