@@ -1076,7 +1076,8 @@ local defaultdb = {
           ['mdp']         = 'application/dash+xml',
           ['map']         = 'application/json',
           ['xsd']         = 'application/xml',
-          ['opus']        = 'audio/ogg'
+          ['opus']        = 'audio/ogg',
+          ['gz']          = 'application/x-gzip'
      },
 
      -- This contains filename overrides for certain files, like README files.
