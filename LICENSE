@@ -24,7 +24,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 ======
 
 In addition, the MIME types contained in the Software were
-originally obtained from the Python 2.7.1 ``mimetypes.py`` module,
-though they have been considerably modified and augmented.
-Said file was made available under the Python Software Foundation
-license (http://python.org/psf/license/).
+originally obtained from the Apache HTTP Server available under the 
+Apache Software License, Version 2.0 license
+(http://directory.fsf.org/wiki/License:Apache2.0)
