@@ -15,8 +15,8 @@ local function exec(command)
   return cmd:close()
 end
 
-if not exec(format("curl %s --silent -o _tmp_ && sed '/^#/d' <_tmp_ >> mimetypes && rm _tmp_", apache_mimetypes_url)) then
-  error 'fail to get mimetypes'
+if not exec(format("curl %s --silent -o mimetypes", apache_mimetypes_url)) then
+	error 'fail to get mimetypes'
 end
 
 print 'processing mimetypes file'
@@ -24,23 +24,28 @@ print 'processing mimetypes file'
 local mime_types, longest = {}, 0
 
 for line in lines('./mimetypes') do
-  local _type, extensions = match(line, '([^%s]+)%s*([^$]+)')
-  for extension in gmatch(extensions, '%s*([^%s]+)%s*') do
-    mime_types[extension] = _type
-    longest = longest < len(extension) and len(extension) or longest
-  end
-  longest = longest + 1
+	if line and line:sub(1,1)~="#" then -- drop comment
+		local _type, extensions = match(line, '([^%s]+)%s*([^$]+)')
+		for extension in gmatch(extensions, '%s*([^%s]+)%s*') do
+			mime_types[extension] = _type
+			--longest = longest < len(extension) and len(extension) or longest
+		end
+		--longest = longest + 1
+	end
 end
 
 if not exec('rm mimetypes') then
-  error 'fail to remove mimetypes'
+	error 'fail to remove mimetypes'
 end
 
 local mime = open('mimes', 'w')
 
 mime:write 'extensions = {\n'
-for extension, _type in pairs(mime_types) do
-  mime:write(format("  ['%s']%s= '%s',\n", extension, rep(' ', longest - len(extension)), _type))
+
+for ext, mtype in pairs(mime_types) do
+	mime:write(format("\t%-15s = '%s',\n", (
+		format("['%s']", ext)
+	), mtype))
 end
 mime:write '}'
 
